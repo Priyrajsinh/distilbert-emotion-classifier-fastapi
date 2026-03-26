@@ -73,8 +73,9 @@ def load_and_map() -> None:
     macro-category label map to data/raw/label_map.json.
     """
     logger.info("Loading google-research-datasets/go_emotions (simplified)")
-    # nosec B615 — public, versioned HuggingFace dataset; no user-controlled input
-    ds = load_dataset("google-research-datasets/go_emotions", "simplified")
+    ds = load_dataset(  # nosec B615
+        "google-research-datasets/go_emotions", "simplified"
+    )
 
     label_map_path = Path("data/raw/label_map.json")
     label_map_path.parent.mkdir(parents=True, exist_ok=True)
