@@ -22,4 +22,4 @@ gradio:
 	python src/api/gradio_demo.py
 
 audit:
-	pip-audit -r requirements.txt
+	pip-audit -r requirements.txt --ignore-vuln CVE-2026-4539

@@ -38,7 +38,9 @@ jobs:
         run: bandit -r src/ -ll -ii
 
       - name: pip-audit vulnerability scan
-        run: pip-audit -r requirements.txt
+        # CVE-2026-4539 affects pygments; no fixed version exists upstream yet.
+        # Ignored until pygments releases a patch. Review on each dep update.
+        run: pip-audit -r requirements.txt --ignore-vuln CVE-2026-4539
 
       - name: pytest with coverage
         run: pytest --cov=src --cov-fail-under=70 -v
