@@ -16,7 +16,7 @@ serve:
 	uvicorn src.api.app:app --reload --port 8000
 
 docker-build:
-	docker build -t b1-hf-fastapi .
+	docker build -t distilbert-emotion-classifier-fastapi .
 
 gradio:
 	python src/api/gradio_demo.py

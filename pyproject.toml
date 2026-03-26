@@ -1,5 +1,5 @@
 [project]
-name = "b1-hf-fastapi"
+name = "distilbert-emotion-classifier-fastapi"
 version = "0.1.0"
 requires-python = ">=3.12"
 
