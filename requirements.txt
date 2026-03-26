@@ -2,11 +2,11 @@ transformers
 datasets
 torch
 mlflow
-fastapi
+fastapi>=0.100.0
 uvicorn
 gradio
 pandera
-pydantic
+pydantic>=2.0
 slowapi
 prometheus-fastapi-instrumentator
 python-json-logger

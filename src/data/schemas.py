@@ -4,7 +4,7 @@ SentimentInput validates incoming text payloads.
 SentimentOutput defines the structure of every prediction response.
 """
 
-from pydantic import BaseModel, validator
+from pydantic import BaseModel, field_validator
 
 
 class SentimentInput(BaseModel):
@@ -17,7 +17,8 @@ class SentimentInput(BaseModel):
 
     text: str
 
-    @validator("text")
+    @field_validator("text")
+    @classmethod
     def not_empty(cls, value: str) -> str:
         """Reject blank or whitespace-only text inputs.
 
