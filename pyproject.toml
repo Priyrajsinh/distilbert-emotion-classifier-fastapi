@@ -1,0 +1,29 @@
+[project]
+name = "b1-hf-fastapi"
+version = "0.1.0"
+requires-python = ">=3.12"
+
+[tool.black]
+line-length = 88
+
+[tool.isort]
+profile = "black"
+
+[tool.mypy]
+python_version = "3.12"
+strict = false
+ignore_missing_imports = true
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+asyncio_mode = "auto"
+
+[tool.coverage.run]
+omit = ["src/data/load_raw.py", "src/api/gradio_demo.py", "src/training/train.py"]
+
+[tool.coverage.report]
+exclude_lines = ["if __name__ == .__main__.:"]
+
+[tool.interrogate]
+ignore-init-method = true
+fail-under = 80

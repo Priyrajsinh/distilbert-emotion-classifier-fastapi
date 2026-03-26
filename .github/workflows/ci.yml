@@ -1,0 +1,50 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  ci:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Python 3.12
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install dependencies
+        run: pip install -r requirements.txt -r requirements-dev.txt
+
+      - name: black format check
+        run: black --check src/ tests/
+
+      - name: flake8 lint
+        run: flake8 src/ tests/
+
+      - name: isort import order check
+        run: isort --check-only src/ tests/
+
+      - name: mypy type check
+        run: mypy src/
+
+      - name: bandit security scan
+        run: bandit -r src/ -ll -ii
+
+      - name: pip-audit vulnerability scan
+        run: pip-audit -r requirements.txt
+
+      - name: pytest with coverage
+        run: pytest --cov=src --cov-fail-under=70 -v
+
+      - name: radon complexity check
+        run: radon cc src/ -nc
+
+      - name: interrogate docstring coverage
+        run: interrogate src/ --fail-under=80

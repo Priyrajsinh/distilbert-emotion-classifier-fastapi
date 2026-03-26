@@ -1,0 +1,32 @@
+model:
+  base_model: distilbert-base-uncased
+  num_labels: 7
+
+training:
+  batch_size: 32
+  max_seq_len: 128
+  epochs: 3
+  learning_rate: 2.0e-5
+  warmup_steps: 200
+  weight_decay: 0.01
+  seed: 42
+
+data:
+  train_split: 0.80
+  val_split: 0.10
+  test_split: 0.10
+
+api:
+  rate_limit_predict: 30/minute
+  max_payload_mb: 1
+  cors_origins:
+    - "http://localhost:3000"
+
+emotion_labels:
+  0: joy
+  1: sadness
+  2: anger
+  3: fear
+  4: surprise
+  5: disgust
+  6: neutral
