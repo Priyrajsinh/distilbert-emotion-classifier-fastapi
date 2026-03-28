@@ -277,3 +277,46 @@
 - Next step: Fix `GOEMOTION_TO_MACRO` indices in `src/data/load_raw.py` to use correct GoEmotions simplified label integers; regenerate splits; retrain model (Day 4).
 
 ---
+
+## Day 3 (re-run) — 2026-03-28 — Evaluation with correctly labelled model
+> Project: B1-HuggingFace-FastAPI
+
+### What was done
+- Retrained model on Kaggle T4 after GOEMOTION_TO_MACRO fix; downloaded new weights.
+- Ran `python -m src.evaluation.evaluate` on the corrected model — first valid evaluation.
+- Fine-tuned weighted-F1: **0.6235** (vs 0.584 on broken labels — +3.9 pp improvement).
+- Zero-shot (bhadresh-savani, 200 samples) weighted-F1: **0.4574** — now a fair comparison.
+- delta_f1: **+0.166** — fine-tuning meaningfully outperforms zero-shot on same domain.
+
+### Why it was done
+- Previous evaluation results (Day 3 original) were internally consistent but meaningless because training labels were shuffled — joy texts trained as anger etc.
+- After fixing GOEMOTION_TO_MACRO and retraining, both the fine-tuned model and test labels use correct emotion indices, so metrics now reflect real model quality.
+
+### How it was done
+- Pushed GOEMOTION_TO_MACRO fix + regenerated CSVs → Kaggle auto-picked them up on clone.
+- Trained 3 epochs on T4, downloaded `sentiment_model.zip`, unzipped into `models/sentiment_model/`.
+- Re-ran `python -m src.evaluation.evaluate` — pipeline unchanged, just model weights replaced.
+
+### Why this tool / library — not alternatives
+| Tool Used | Why This | Rejected Alternative | Why Not |
+|-----------|----------|---------------------|---------|
+| Kaggle T4 GPU | Free 30 hr/wk GPU quota, 2.5x faster than Colab T4 | Local CPU | 3-5 hrs vs 15-20 min |
+| safetensors format | Faster load, safer (no pickle), default in transformers >=4.34 | pytorch_model.bin | Slower, pickle deserialization risk |
+| WeightedTrainer | Handles class imbalance (joy 33% vs fear 4%) automatically | vanilla Trainer | Would overfit to majority classes |
+
+### Definitions (plain English)
+- **delta_f1**: How much better (or worse) the fine-tuned model is vs zero-shot — positive means fine-tuning added value.
+- **Weighted F1**: F1 averaged across classes weighted by class size — not fooled by class imbalance.
+- **safetensors**: A model weight file format that is faster to load and cannot execute arbitrary code unlike pickle-based `.bin` files.
+
+### Real-world use case
+- Fine-tuned vs zero-shot comparison is standard practice in NLP deployment decisions: if delta_f1 > ~0.10, fine-tuning cost is justified; below that, a zero-shot model may be preferable to avoid maintenance overhead.
+
+### How to remember it
+- **delta_f1 > 0.10 = fine-tune; < 0.10 = just use zero-shot** — the "10-point rule" for justifying training cost.
+
+### Status
+- [x] Done
+- Next step: Day 4 — Build FastAPI `/predict` endpoint + Pydantic validation + rate limiting.
+
+---
