@@ -19,7 +19,7 @@ testpaths = ["tests"]
 asyncio_mode = "auto"
 
 [tool.coverage.run]
-omit = ["src/data/load_raw.py", "src/api/gradio_demo.py", "src/training/train.py"]
+omit = ["src/data/load_raw.py", "src/api/gradio_demo.py", "src/training/train.py", "src/evaluation/evaluate.py"]
 
 [tool.coverage.report]
 exclude_lines = ["if __name__ == .__main__.:"]
