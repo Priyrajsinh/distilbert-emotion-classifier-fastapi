@@ -4,7 +4,11 @@
 [![Python 3.12](https://img.shields.io/badge/python-3.12-blue.svg)](https://www.python.org/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-green.svg)](LICENSE)
 
-**[LIVE DEMO](YOUR_GRADIO_URL_HERE)** — replace with your deployed Gradio / HuggingFace Space URL
+## 🤗 Live Demos
+
+| Project | Link |
+|---|---|
+| 🎭 Emotion Classifier (DistilBERT + GoEmotions) | [![HF Space](https://img.shields.io/badge/🤗-Open%20in%20Spaces-blue)](https://huggingface.co/spaces/Priyrajsinh/distilbert-emotion-classifier) |
 
 Fine-tune DistilBERT on GoEmotions, serve it via production-grade FastAPI, and track experiments with MLflow — all in one reproducible project.
 
